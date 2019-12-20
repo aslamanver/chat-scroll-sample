@@ -11,6 +11,7 @@ export class AppComponent implements OnInit {
 
   chats = [];
   isLoading = false;
+  pages = 0;
 
   ngOnInit() {
     this.addChats(50).then(() => {
@@ -28,15 +29,19 @@ export class AppComponent implements OnInit {
         for (let k = oLength; k < oLength + c; k++) {
           this.chats.unshift(k + ' World');
         }
+        this.pages++;
         resolve('Loaded');
-      }, 1000);
+      }, 3000);
     });
   }
 
   onScroll($event) {
 
+    if (this.pages === 5) { return; }
+
     const elem: HTMLElement = $event.srcElement;
-    const oScrollTop = elem.scrollTop;
+
+    if (elem.scrollTop < 1) { elem.scrollTo(0, 1); }
 
     if (this.isLoading) { return; }
 
@@ -44,7 +49,6 @@ export class AppComponent implements OnInit {
       this.isLoading = true;
       this.addChats(50).then(() => {
         this.isLoading = false;
-        elem.scrollTop = oScrollTop;
       });
     }
   }

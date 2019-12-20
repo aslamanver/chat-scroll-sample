@@ -1,5 +1,6 @@
 <div class="chat-wrapper" #chatscroll (scroll)="onScroll($event)">
   <ul>
+    <li *ngIf="isLoading" class="loading">Loading.., Page: {{ pages + 1 }}</li>
     <li *ngFor="let chat of chats">
       {{ chat }}
     </li>
